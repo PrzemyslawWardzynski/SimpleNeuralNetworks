@@ -35,30 +35,6 @@ def train(X, Y, weights, threshold, stepAlpha, isUnipolar):
 
     return weights,epochs
 
-#                   x0,x1,x2,y
-data = np.array([
-                    (0,0,0,0),
-                    (0,0.01,0.02,0),
-                    (0,0.02,0.02,0),
-                    (0,0,0.01,0),
-
-                    (0,0,1,0),
-                    (0,0.01,0.99,0),
-                    (0,0.02,0.98,0),
-                    (0,0.01,1,0),
-
-                    (0,1,0,0),
-                    (0,0.98,0.01,0),
-                    (0,1,0.02,0),
-                    (0,0.99,0.02,0),
-                    
-                    (0,1,1,1),
-                    (0,0.99,0.98,1),
-                    (0,0.98,1,1),
-                    (0,1,0.99,1),
-
-                ])
-
 def test_constant_threshold(data, weights, threshold, step, isUnipolar):
 
     if(isUnipolar == BIPOLAR):
@@ -92,21 +68,6 @@ def test_constant_threshold(data, weights, threshold, step, isUnipolar):
         testList.append("{0};{1}".format(threshold[i],avgEpochs/(j+1)))
 
     print(testList)
-
-#TEST1 - theta threshold experiment
-print("TEST1")
-weights = np.array([0,0.1,0.1])
-threshold = np.array([0.,0.4,0.8,1.2,1.6,2])
-step = 0.01
-test_constant_threshold(data, weights, threshold, step, UNIPOLAR)
-test_constant_threshold(data, weights, threshold, step, BIPOLAR)
-threshold = np.arange(0,0.4,0.1)
-test_constant_threshold(data, weights, threshold, step, UNIPOLAR)
-test_constant_threshold(data, weights, threshold, step, BIPOLAR)
-
-#TEST2 - bias , weights range experiment
-print("TEST2")
-
 
 def test_initial_weights(data, weight_range, bias, step, isUnipolar):
 
@@ -149,14 +110,6 @@ def test_initial_weights(data, weight_range, bias, step, isUnipolar):
 
     print(testList)
 
-weight_range = np.arange(1,0,-0.2)
-bias = 0.5
-step = 0.01
-test_initial_weights(data,weight_range,bias,step,UNIPOLAR)
-test_initial_weights(data,weight_range,bias,step,BIPOLAR)
-
-#TEST3 - step experiment
-print("TEST3")
 def test_step(data, weights, bias, step, isUnipolar):
 
     if(isUnipolar == BIPOLAR):
@@ -193,15 +146,7 @@ def test_step(data, weights, bias, step, isUnipolar):
         testList.append("{0:1.2};{1}".format(step[i],avgEpochs/(j+1)))
 
     print(testList)
-
-bias = 0.5
-weights= np.array([bias,0.1,0.01])
-step = np.arange(0.01,1,0.1)
-test_step(data,weights,bias,step,UNIPOLAR)
-test_step(data,weights,bias,step,BIPOLAR)
-
-#TEST4 - threshold function (unipolar/bipolar) experiment
-print("TEST4")
+ 
 def test_activation_function(data, weights, bias, step, isUnipolar):
 
     if(isUnipolar == BIPOLAR):
@@ -237,8 +182,64 @@ def test_activation_function(data, weights, bias, step, isUnipolar):
         
     testList.append("{0};{1}".format(isUnipolar,avgEpochs/(j+1)))
 
-    print(testList)
+    print(testList) 
 
+
+#                   x0,x1,x2,y
+data = np.array([
+                    (0,0,0,0),
+                    (0,0.01,0.02,0),
+                    (0,0.02,0.02,0),
+                    (0,0,0.01,0),
+
+                    (0,0,1,0),
+                    (0,0.01,0.99,0),
+                    (0,0.02,0.98,0),
+                    (0,0.01,1,0),
+
+                    (0,1,0,0),
+                    (0,0.98,0.01,0),
+                    (0,1,0.02,0),
+                    (0,0.99,0.02,0),
+                    
+                    (0,1,1,1),
+                    (0,0.99,0.98,1),
+                    (0,0.98,1,1),
+                    (0,1,0.99,1),
+
+                ])
+
+
+
+#TEST1 - theta threshold experiment
+print("TEST1")
+weights = np.array([0,0.1,0.1])
+threshold = np.array([0.,0.4,0.8,1.2,1.6,2])
+step = 0.01
+test_constant_threshold(data, weights, threshold, step, UNIPOLAR)
+test_constant_threshold(data, weights, threshold, step, BIPOLAR)
+threshold = np.arange(0,0.4,0.1)
+test_constant_threshold(data, weights, threshold, step, UNIPOLAR)
+test_constant_threshold(data, weights, threshold, step, BIPOLAR)
+
+#TEST2 - bias , weights range experiment
+print("TEST2")
+weight_range = np.arange(1,0,-0.2)
+bias = 0.5
+step = 0.01
+test_initial_weights(data,weight_range,bias,step,UNIPOLAR)
+test_initial_weights(data,weight_range,bias,step,BIPOLAR)
+
+#TEST3 - step experiment
+print("TEST3")
+bias = 0.5
+weights= np.array([bias,0.1,0.01])
+step = np.arange(0.01,1,0.1)
+test_step(data,weights,bias,step,UNIPOLAR)
+test_step(data,weights,bias,step,BIPOLAR)
+
+#TEST4 - threshold function (unipolar/bipolar) experiment
+print("TEST4")
 bias = 0.5
 weights= np.array([bias,0.1,0.1])
 step = 0.41

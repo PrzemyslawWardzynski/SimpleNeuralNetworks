@@ -20,6 +20,9 @@ def threshold_function(isUnipolar, z, threshold):
     else:
         return result if result == 1 else -1
 
+def predict(X, weights, threshold, isUnipolar):
+    z = (X.T)@weights
+    return threshold_function(isUnipolar, z, threshold)
 
 
 

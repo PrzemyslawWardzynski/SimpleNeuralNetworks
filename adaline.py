@@ -2,6 +2,8 @@ import numpy as np
 import random as random
 from utility import *
 
+UNIPOLAR = True
+BIPOLAR = False
 REPS = 10
 MAX_EPOCHS = 10000
 
@@ -30,40 +32,6 @@ def train(X, Y, weights, stepMi, acceptableError):
             weights = np.where(weights < -1.0, -1.0, weights)
 
     return weights,epochs
-
-
-
-#                   x0,x1,x2,y
-data = np.array([
-                    (0,0,0,0),
-                    (0,0.01,0.02,0),
-                    (0,0.02,0.02,0),
-                    (0,0,0.01,0),
-
-                    (0,0,1,0),
-                    (0,0.01,0.99,0),
-                    (0,0.02,0.98,0),
-                    (0,0.01,1,0),
-
-                    (0,1,0,0),
-                    (0,0.98,0.01,0),
-                    (0,1,0.02,0),
-                    (0,0.99,0.02,0),
-                    
-                    (0,1,1,1),
-                    (0,0.99,0.98,1),
-                    (0,0.98,1,1),
-                    (0,1,0.99,1),
-
-                ])
-
-
-
-data = unipolar_to_bipolar(data)
-data = to_bias(data)
-
-#TEST1 - bias , weights range experiment
-print("TEST1")
 
 def test_initial_weights(data, weight_range, bias, step, acceptableError):
 
@@ -100,14 +68,6 @@ def test_initial_weights(data, weight_range, bias, step, acceptableError):
 
     print(testList)
 
-weight_range = np.arange(1,0,-0.2)
-bias = 0.5
-step = 0.01
-acceptableError = 0.3
-test_initial_weights(data,weight_range,bias,step,acceptableError)
-#TEST2 - step experiment
-print("TEST2")
-
 def test_step(data, weights, bias, step, acceptableError):
 
     x = data[:,:3].T
@@ -138,17 +98,6 @@ def test_step(data, weights, bias, step, acceptableError):
         testList.append("{0:1.2};{1}".format(step[i],avgEpochs/(j+1)))
 
     print(testList)
-
-bias = 0.5
-weights= np.array([bias,0.1,0.01])
-step = np.arange(0.01,1,0.1)
-acceptableError = 0.3
-test_step(data,weights,bias,step,acceptableError)
-
-
-
-#TEST3 - error value experiment 
-print("TEST3")
 
 def test_acceptable_error(data, weights, bias, step, acceptableError):
 
@@ -181,8 +130,56 @@ def test_acceptable_error(data, weights, bias, step, acceptableError):
 
     print(testList)
 
+
+#                   x0,x1,x2,y
+data = np.array([
+                    (0,0,0,0),
+                    (0,0.01,0.02,0),
+                    (0,0.02,0.02,0),
+                    (0,0,0.01,0),
+
+                    (0,0,1,0),
+                    (0,0.01,0.99,0),
+                    (0,0.02,0.98,0),
+                    (0,0.01,1,0),
+
+                    (0,1,0,0),
+                    (0,0.98,0.01,0),
+                    (0,1,0.02,0),
+                    (0,0.99,0.02,0),
+                    
+                    (0,1,1,1),
+                    (0,0.99,0.98,1),
+                    (0,0.98,1,1),
+                    (0,1,0.99,1),
+
+                ])
+
+data = unipolar_to_bipolar(data)
+data = to_bias(data)
+
+#TEST1 - bias , weights range experiment
+print("TEST1")
+weight_range = np.arange(1,0,-0.2)
+bias = 0.5
+step = 0.01
+acceptableError = 0.3
+#test_initial_weights(data,weight_range,bias,step,acceptableError)
+
+#TEST2 - step experiment
+print("TEST2")
+bias = 0.5
+weights= np.array([bias,0.1,0.01])
+step = np.arange(0.01,1,0.1)
+acceptableError = 0.3
+#test_step(data,weights,bias,step,acceptableError)
+
+#TEST3 - error value experiment 
+print("TEST3")
 bias = 0.5
 weights= np.array([bias,0.1,0.01])
 step = 0.41
 acceptableError = np.arange(0.1,0.5,0.05)
-test_acceptable_error(data,weights,bias,step,acceptableError)
+#test_acceptable_error(data,weights,bias,step,acceptableError)
+
+
