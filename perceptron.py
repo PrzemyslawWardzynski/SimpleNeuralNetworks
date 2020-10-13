@@ -1,29 +1,13 @@
 import numpy as np
 import random as random
+from utility import *
 
 UNIPOLAR = True
 BIPOLAR = False
 REPS = 10
 MAX_EPOCHS = 10000
 
-def unipolar_to_bipolar(data):
-    tmp = np.where(data <= 0.2, data - 1, data)
-    tmp[:,0] = 0
-    return tmp 
 
-def to_bias(data):
-    tmp = data.copy()
-    tmp[:,0] = 1
-    return tmp
-
-def threshold_function(isUnipolar, z, threshold):
-
-    result = (z > threshold).astype(int)
-    if(isUnipolar):
-        return result
-
-    else:
-        return result if result == 1 else -1
 
 
 
@@ -110,14 +94,18 @@ def test_constant_threshold(data, weights, threshold, step, isUnipolar):
     print(testList)
 
 #TEST1 - theta threshold experiment
+print("TEST1")
+weights = np.array([0,0.1,0.1])
+threshold = np.array([0.,0.4,0.8,1.2,1.6,2])
+step = 0.01
+test_constant_threshold(data, weights, threshold, step, UNIPOLAR)
+test_constant_threshold(data, weights, threshold, step, BIPOLAR)
+threshold = np.arange(0,0.4,0.1)
+test_constant_threshold(data, weights, threshold, step, UNIPOLAR)
+test_constant_threshold(data, weights, threshold, step, BIPOLAR)
 
-#weights = np.array([0,0.1,0.1])
-#threshold = np.array([0.,0.4,0.8,1.2,1.6,2])
-#step = 0.01
-#test_constant_threshold(data, weights, threshold, step, UNIPOLAR)
-
-#TEST2 - bias , weigths range experiment
-
+#TEST2 - bias , weights range experiment
+print("TEST2")
 
 
 def test_initial_weights(data, weight_range, bias, step, isUnipolar):
@@ -161,13 +149,14 @@ def test_initial_weights(data, weight_range, bias, step, isUnipolar):
 
     print(testList)
 
-#weight_range = np.arange(1,0,-0.1)
-#bias = -0.5
-#step = 0.01
-#test_initial_weights(data,weight_range,bias,step,UNIPOLAR)
+weight_range = np.arange(1,0,-0.2)
+bias = 0.5
+step = 0.01
+test_initial_weights(data,weight_range,bias,step,UNIPOLAR)
+test_initial_weights(data,weight_range,bias,step,BIPOLAR)
 
 #TEST3 - step experiment
-
+print("TEST3")
 def test_step(data, weights, bias, step, isUnipolar):
 
     if(isUnipolar == BIPOLAR):
@@ -201,17 +190,18 @@ def test_step(data, weights, bias, step, isUnipolar):
                 break
         
         
-        testList.append("{0};{1}".format(step[i],avgEpochs/(j+1)))
+        testList.append("{0:1.2};{1}".format(step[i],avgEpochs/(j+1)))
 
     print(testList)
 
-#bias = 0.5
-#weights= np.array([bias,0.1,0.01])
-#step = np.arange(0.01,1,0.05)
-#test_step(data,weights,bias,step,UNIPOLAR)
+bias = 0.5
+weights= np.array([bias,0.1,0.01])
+step = np.arange(0.01,1,0.1)
+test_step(data,weights,bias,step,UNIPOLAR)
+test_step(data,weights,bias,step,BIPOLAR)
 
 #TEST4 - threshold function (unipolar/bipolar) experiment
-
+print("TEST4")
 def test_activation_function(data, weights, bias, step, isUnipolar):
 
     if(isUnipolar == BIPOLAR):
@@ -251,6 +241,6 @@ def test_activation_function(data, weights, bias, step, isUnipolar):
 
 bias = 0.5
 weights= np.array([bias,0.1,0.1])
-step = 0.01
+step = 0.41
 test_activation_function(data,weights,bias,step,UNIPOLAR)
 test_activation_function(data,weights,bias,step,BIPOLAR)
